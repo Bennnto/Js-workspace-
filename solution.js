@@ -1,6 +1,5 @@
 "use strict";
 
-
 // You can delete this example function (and the corresponding export)
 function getRandomNumber() {
   const Random = Math.floor(Math.random()*5)+1
@@ -17,10 +16,11 @@ async function getNationality(name) {
       throw new Error (`response status = ${response.status}`);
     }
     const data = await response.json()
-    if (!data.country || data.country.length === 0) {
-      return null;
+    if (!Array.isArray(data.country) || data.country.length === 0)
+    {
+       return null;
     }
-    return data;
+    return data.country.country_id;   
   }
   catch (error) 
   {
@@ -44,7 +44,8 @@ async function fetchProducts(id) {
     return `Could not get proguce: Error: ${error.message}`
   }
 }
-  
+/*==================================================================================== */
+
 
 /* ======  Export your functions ===================================================== */
 export {
