@@ -41,16 +41,38 @@ async function fetchProducts(id) {
   }
   catch (error)
   {
-    return `Could not get proguce: Error: ${error.message}`
+    return `Could not get products: Error: ${error.message}`
   }
 }
 /*==================================================================================== */
-
-
+async function searchStorePrice(product_name) {
+  const APi = `https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json`
+  try
+  {
+    const resp = await fetch(APi);
+    if (!resp.ok)
+    {
+      throw new Error(`HTTP Error: = ${resp.status}`);
+    }
+    const data = await resp.json();
+    if (!Array.isArray(data) || data.length == 0)
+    {
+      return null;
+    }
+    const itemname = String(product_name).toLowerCase();
+    const match = data.find(item => item.name === itemname);
+    return match.price;
+  }
+  catch (error)
+  {
+    return `Could not get products: Error: ${error.message}`
+  }  
+}
 /* ======  Export your functions ===================================================== */
 export {
   getRandomNumber, 
   getNationality, 
-  fetchProducts
+  fetchProducts, 
+  searchStorePrice
   // add your other functions, comma separated
 }
