@@ -34,7 +34,7 @@ async function fetchProducts(id) {
   try {
     const response = await fetch(api);
     if (!response.ok) {
-      throw new Error(`HTTP Error: = ${response.status}`);
+      throw new Error(`HTTP error: ${response.status}`);
     }
     const prod = await response.json()
     return prod.title
@@ -52,7 +52,7 @@ async function searchStorePrice(product_name) {
     const resp = await fetch(APi);
     if (!resp.ok)
     {
-      throw new Error(`HTTP Error: = ${resp.status}`);
+      throw new Error(`HTTP error: ${resp.status}`);
     }
     const data = await resp.json();
     if (!Array.isArray(data) || data.length == 0)
@@ -68,11 +68,38 @@ async function searchStorePrice(product_name) {
     return `Could not get products: Error: ${error.message}`
   }  
 }
+/*==================================================================================== */
+async function getStarWarsCharacters () {
+  const API = `https://swapi.py4e.com/api/people/`
+  try
+  {
+    const resp = await fetch(API);
+    if (!resp.ok)
+    {
+      throw new Error(`HTTP error: ${resp.status}`);
+    }
+    const data = await resp.json();
+    if(!Array.isArray(data.results) || data.results.length == 0)
+    {
+      return null;
+    }
+    const characters = {};
+    data.results.forEach(char => {characters[char.name] = char.url});
+    return {characters};
+  }
+  catch (error) {
+    return `Could not get characters: Error: ${error.message}`;
+  }
+}
+
+/*==================================================================================== */
+
 /* ======  Export your functions ===================================================== */
 export {
   getRandomNumber, 
   getNationality, 
   fetchProducts, 
-  searchStorePrice
+  searchStorePrice, 
+  getStarWarCharacters
   // add your other functions, comma separated
 }
